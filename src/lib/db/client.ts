@@ -1,15 +1,15 @@
 import { MongoClient } from "mongodb";
 
-declare global {
-  var _mongoClient: MongoClient | undefined;
-}
-
 const uri = process.env.MONGO_URI || "";
 
-const mongo = global._mongoClient ?? new MongoClient(uri);
+let mongoClient: MongoClient | null = null;
 
-if (!global._mongoClient) {
-  global._mongoClient = mongo;
+async function getMongoClient(): Promise<MongoClient> {
+  if (!mongoClient) {
+    mongoClient = new MongoClient(uri);
+    await mongoClient.connect();
+  }
+  return mongoClient;
 }
 
-export default mongo.connect();
+export default getMongoClient();

@@ -1,5 +1,6 @@
 "use client"
 
+import Alert from "@/components/atoms/Alert";
 import Button from "@/components/atoms/Button";
 import Input from "@/components/atoms/Input";
 import RequestTable from "@/components/tables/Table";
@@ -35,6 +36,7 @@ export default function ItemRequestsPage() {
 
   return (
     <div className="max-w-2xl mx-auto my-8 flex flex-col items-center p-5">
+      { error && <Alert error={error} setError={setError} /> }
       <form 
         ref={formRef}
         className="flex flex-col md:flex-row justify-center md:items-end w-full gap-4"

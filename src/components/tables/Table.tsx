@@ -2,7 +2,7 @@ import { RequestStatus } from "@/lib/types/request";
 import Dropdown from "../atoms/Dropdown/Dropdown";
 import TableSkeleton from "./Skeleton";
 import { RequestItem } from "@/lib/db/types";
-import { useEffect, useState, Dispatch, SetStateAction } from "react";
+import { useEffect, useState, Dispatch, SetStateAction, useCallback } from "react";
 import Item from "../atoms/Dropdown/Item";
 import { useRouter } from "next/navigation";
 import Pagination from "../molecules/Pagination";
@@ -16,7 +16,7 @@ export default function RequestTable({ setError }: { setError: Dispatch<SetState
     const [isEmpty, setIsEmpty] = useState<boolean>(true);
     const [totalCount, setTotalCount] = useState<number>(0);
 
-    const fetchRequests = async (status = "", page = 1) => {
+    const fetchRequests = useCallback(async (status = "", page = 1) => {
         setIsEmpty(false);
         setRequests([]);
         setSelectedRequests([]);
@@ -29,7 +29,11 @@ export default function RequestTable({ setError }: { setError: Dispatch<SetState
         } else {
             setError('Requests unable to load.');
         }
-    };
+    }, [setError]);
+    
+    useEffect(() => {
+        fetchRequests(status, page);
+    }, [fetchRequests, status, page]);
 
     const deleteRequests = async () => {
         const selectedRequestIds = selectedRequests.map(req => req.id);
@@ -75,12 +79,6 @@ export default function RequestTable({ setError }: { setError: Dispatch<SetState
         setStatus(newStatus);
         setPage(1);
     }
-
-    useEffect(() => {
-        (async () => {
-            fetchRequests(status, page);
-        })();
-    }, []);
 
     const isRequestSelected = (request: RequestItem) => 
         request && request.id && selectedRequests.some(req => req && req.id === request.id);    

@@ -1,4 +1,3 @@
-import React from "react";
 
 type ButtonVariant = "primary" | "inverted";
 
@@ -15,7 +14,7 @@ export default function Button({
   onClick,
   children,
 }: ButtonProps) {
-  const baseStyles = "py-2 px-4 rounded-md transition w-full ";
+  const baseStyles = "py-2 px-4 h-12 rounded-md transition";
 
   const variantStyles: Record<ButtonVariant, string> = {
     primary:

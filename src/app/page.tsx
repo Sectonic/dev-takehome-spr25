@@ -11,7 +11,7 @@ export default function Home() {
           <h1 className="font-bold">{NP.NAME}</h1>
           <h2>{NP.TAGLINE}</h2>
         </div>
-        <div className="flex flex-col w-full gap-5">
+        <div className="flex justify-center w-full gap-5">
           <Link href={APP_PATHS.ADMIN_PORTAL}>
             <Button variant="inverted">
               <h3>Admin Portal</h3>
